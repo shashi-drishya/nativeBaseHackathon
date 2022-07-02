@@ -1,43 +1,46 @@
 // import NavBar from "../Navbar";
 import Videos from "../../components/TutorialVideos/index.json";
-// import VideoPlay from "../Video";
 import Card from "../Card";
 import HeaderSearch from "../Search";
-import { Container, Heading, Text } from "native-base";
+import { Center, Container, Flex, Heading, Stack, Text } from "native-base";
+import { useEffect, useState } from "react";
 export default function Home() {
   console.log({ tutorialVIdeos: Videos.videos });
-  const videosLinks = [
-    {
-      videoLink: "link1",
-      duration: "time",
-      rating: "45",
-      author: "ram",
-      syllabus: ["s1", "s2", "s3"],
-    },
-    {
-      videoLink: "link2",
-      duration: "time",
-      rating: "67",
-      author: "ram",
-      syllabus: ["s1", "s2", "s3"],
-    },
-    {
-      videoLink: "link3",
-      duration: "time",
-      rating: "76",
-      author: "ram",
-      syllabus: ["s1", "s2", "s3"],
-    },
-  ];
-  const tutorialVideos = Videos.videos;
+  const [images, setImages] = useState([]);
+  useEffect(async () => {
+    const fetchedData = await fetch(
+      `https://api.pexels.com/v1/curated?page=12&per_page=12`
+    );
+    const json = await fetchedData.json();
+    const json1 = json;
+    setImages(json1.photos);
+  }, []);
+  console.log({ images });
   return (
-    <Container>
-      <Heading>
-        A<Text color="emerald.500"> Image Search </Text>
-        Appplication
-      </Heading>
-      <HeaderSearch />
-      <Card imgSrc="https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg" />
-    </Container>
+    <Center position="relative">
+      <Container>
+        <Heading>
+          A<Text color="emerald.500"> Image Search </Text>
+          Appplication
+        </Heading>
+        <HeaderSearch />
+        <Flex
+          direction="row"
+          mb="2.5"
+          mt="1.5"
+          justifyContent="space-between"
+          space={3}
+          style={{
+            flex: 1,
+            flexWrap: "wrap",
+            margin: "auto",
+          }}
+        >
+          {images.map((img) => (
+            <Card key={img.alt} imgSrc={img.src.medium} />
+          ))}
+        </Flex>
+      </Container>
+    </Center>
   );
 }

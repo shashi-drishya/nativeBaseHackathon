@@ -1,21 +1,10 @@
 import React from "react";
-import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Box,
-} from "native-base";
+import { NativeBaseProvider, extendTheme, Box } from "native-base";
 import Test from "./components/Test";
 import Dashboard from "./components/DashBoard";
 import NavBar from "./components/Navbar";
 import Home from "./components/DashBoard";
+import ModalBox from "./components/Modal";
 
 // Define the config
 const config = {
@@ -29,9 +18,14 @@ export const theme = extendTheme({ config });
 export default function App() {
   return (
     <NativeBaseProvider>
-      {/* <NavBar /> */}
+      <NavBar />
       {/* <Box>THIs is box</Box> */}
       <Home />
+      <ModalBox
+      // modalVisible={modalVisible}
+      // setModalVisible={() => setModalVisible(!modalVisible)}
+      // imgSrc={imgSrc}
+      />
     </NativeBaseProvider>
   );
 }
