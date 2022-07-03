@@ -1,7 +1,9 @@
 import {
   AspectRatio,
+  Avatar,
   Box,
   Center,
+  FlatList,
   Heading,
   HStack,
   Image,
@@ -10,12 +12,22 @@ import {
   Text,
   VStack,
 } from "native-base";
-import React from "react";
-import ModalBox from "../Modal";
-
-function Card({ imgSrc }) {
-  const [modalVisible, setModalVisible] = React.useState(false);
-  console.log({ modalVisible });
+import React, { useContext } from "react";
+import { AppContext } from "../ContextApiProvider/index";
+function Card({ imgSrc, imgDetails }) {
+  const imgContext = useContext(AppContext);
+  const { setSelectedImg, setModalVisible, inputVal } = imgContext;
+  const handleOnPress = ({ imgDetails, e }) => {
+    setSelectedImg(imgDetails);
+    setModalVisible(true);
+  };
+  console.log(imgDetails);
+  const data = [
+    {
+      id: 1,
+      avatarUrl: imgSrc,
+    },
+  ];
   return !imgSrc ? (
     <Center w="350">
       <VStack
@@ -40,10 +52,18 @@ function Card({ imgSrc }) {
   ) : (
     <Box
       alignItems="center"
-      m="0.5"
-      onClick={() => {
-        setModalVisible(!modalVisible);
+      m="4"
+      onClick={(e) => {
+        // setModalVisible(!modalVisible);
+        handleOnPress({ imgDetails, e });
       }}
+      _hover={{
+        bg: "primary.700",
+        borderColor: "primary.400",
+        boxShadow: "-15px -15px 15px #ffffff33, 15px 15px 15px #0000001a",
+        transform: "scale(1.5)",
+      }}
+      cursor="pointer"
     >
       <Box
         maxW="80"
@@ -72,61 +92,52 @@ function Card({ imgSrc }) {
               alt="image"
             />
           </AspectRatio>
-          <Center
-            bg="violet.500"
-            _dark={{
-              bg: "violet.400",
-            }}
-            _text={{
-              color: "warmGray.50",
-              fontWeight: "700",
-              fontSize: "xs",
-            }}
-            position="absolute"
-            bottom="0"
-            px="3"
-            py="1.5"
-          >
-            PHOTOS
-          </Center>
         </Box>
         <Stack p="4" space={3}>
           <Stack space={2}>
             <Heading size="md" ml="-1">
-              The Garden City Of Europe
+              Searching {inputVal} on Pixel
             </Heading>
-            <Text
-              fontSize="xs"
-              _light={{
-                color: "violet.500",
-              }}
-              _dark={{
-                color: "violet.400",
-              }}
-              fontWeight="500"
-              ml="-0.5"
-              mt="-1"
+            <HStack
+              flexDirection="row"
+              justifyContent="center"
+              alignItems="center"
             >
-              The Silicon Valley of India.
-            </Text>
+              <FlatList
+                data={data}
+                renderItem={({ item }) => (
+                  <Box>
+                    <Avatar
+                      size="48px"
+                      source={{
+                        uri: item.avatarUrl,
+                      }}
+                    />
+                  </Box>
+                )}
+                keyExtractor={(item) => item.id}
+                w="100"
+              />
+              <Text
+                fontSize="xs"
+                _light={{
+                  color: "violet.500",
+                }}
+                _dark={{
+                  color: "violet.400",
+                }}
+                fontWeight="1000"
+                ml="-0.5"
+                mt="-1"
+              >
+                {imgDetails.photographer}
+              </Text>
+            </HStack>
           </Stack>
           <Text fontWeight="400">
             Bengaluru (also called Bangalore) is the center of India's high-tech
             industry. The city is also known for its parks and nightlife.
           </Text>
-          <HStack alignItems="center" space={4} justifyContent="space-between">
-            <HStack alignItems="center">
-              <Text
-                color="coolGray.600"
-                _dark={{
-                  color: "warmGray.200",
-                }}
-                fontWeight="400"
-              >
-                6 mins ago
-              </Text>
-            </HStack>
-          </HStack>
         </Stack>
       </Box>
     </Box>

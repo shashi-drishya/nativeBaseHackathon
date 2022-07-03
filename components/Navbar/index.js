@@ -1,7 +1,9 @@
-import { Box } from "native-base";
-import React from "react";
+import { Box, ArrowBackIcon, Button, Flex } from "native-base";
+import React, { useContext } from "react";
+import { AppContext } from "../ContextApiProvider";
 
 function NavBar() {
+  const { setModalVisible } = useContext(AppContext);
   return (
     <Box
       bg="primary.400"
@@ -12,7 +14,15 @@ function NavBar() {
         color: "white",
       }}
     >
-      Login
+      <Flex justifyContent="space-between" alignItems="center" direction="row">
+        <Box>LOGO</Box>
+        <Box>
+          <ArrowBackIcon
+            cursor="pointer"
+            onClick={() => setModalVisible(true)}
+          />
+        </Box>
+      </Flex>
     </Box>
   );
 }

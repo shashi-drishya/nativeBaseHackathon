@@ -1,11 +1,9 @@
 import React from "react";
-import { NativeBaseProvider, extendTheme, Box } from "native-base";
-import Test from "./components/Test";
-import Dashboard from "./components/DashBoard";
+import { NativeBaseProvider, extendTheme } from "native-base";
 import NavBar from "./components/Navbar";
 import Home from "./components/DashBoard";
 import ModalBox from "./components/Modal";
-
+import AppContextProvider from "./components/ContextApiProvider";
 // Define the config
 const config = {
   useSystemColorMode: false,
@@ -18,14 +16,11 @@ export const theme = extendTheme({ config });
 export default function App() {
   return (
     <NativeBaseProvider>
-      <NavBar />
-      {/* <Box>THIs is box</Box> */}
-      <Home />
-      <ModalBox
-      // modalVisible={modalVisible}
-      // setModalVisible={() => setModalVisible(!modalVisible)}
-      // imgSrc={imgSrc}
-      />
+      <AppContextProvider>
+        <NavBar />
+        <Home />
+        <ModalBox modalVisible={true} />
+      </AppContextProvider>
     </NativeBaseProvider>
   );
 }
