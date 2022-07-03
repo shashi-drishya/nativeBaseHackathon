@@ -1,5 +1,5 @@
 import React from "react";
-import { NativeBaseProvider, extendTheme } from "native-base";
+import { NativeBaseProvider, Text, extendTheme } from "native-base";
 import NavBar from "./components/Navbar";
 import Home from "./components/DashBoard";
 import ModalBox from "./components/Modal";

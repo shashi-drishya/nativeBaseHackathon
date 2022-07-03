@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Box, HStack, Input, SearchIcon } from "native-base";
 import { AppContext } from "../ContextApiProvider/index";
+import { Pressable } from "react-native";
 function HeaderSearch() {
   const imgContext = useContext(AppContext);
-  const [isOpen, setIsOpen] = useState(false);
   const { updateInputVal, inputVal } = imgContext;
   function expandIcon(e) {}
   return (
@@ -14,17 +14,21 @@ function HeaderSearch() {
       m="2"
     >
       <Box alignItems="center">
-        <Input
-          mx="3"
-          id="search-bar"
-          placeholder="Search Image"
-          w="75%"
-          maxWidth="300px"
-          value={inputVal}
-          onChange={(e) => updateInputVal(e.target.value)}
-        />
+        <Pressable
+            // onChange={(e) => updateInputVal(e.target.value)}
+        // onT
+        >
+          <Input
+            mx="3"
+            id="search-bar"
+            placeholder="Search Image"
+            w="100%"
+            maxWidth="300px"
+            value={inputVal}
+          />
+        </Pressable>
       </Box>
-      <SearchIcon style={{ marginTop: "5px" }} onClick={expandIcon} />
+      <SearchIcon style={{ marginTop: 5 }} onClick={expandIcon} />
     </HStack>
   );
 }

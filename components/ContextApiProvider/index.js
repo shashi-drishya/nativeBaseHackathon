@@ -8,6 +8,7 @@ export default function AppContextProvider(props) {
   const [selectedImg, setSelectedImg] = useState({});
   const [isModalVisible, setModalVisible] = useState(false);
   const [imgArr, setImgArr] = useState(Assets.photos);
+
   const updateInputVal = (val) => {
     setInputVal(val);
     Axios.get(`search?query=${val}&per_page=${40}`)
@@ -16,7 +17,7 @@ export default function AppContextProvider(props) {
           setImgArr(res.data.photos);
         }
       })
-      .catch((res) => console.log(res));
+      .catch((res) => console.error(res));
   };
   const value = {
     selectedImg,

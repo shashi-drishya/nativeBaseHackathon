@@ -1,7 +1,6 @@
 import {
   Box,
   AspectRatio,
-  Heading,
   HStack,
   Image,
   Stack,
@@ -9,19 +8,19 @@ import {
   ArrowForwardIcon,
   FlatList,
   Avatar,
+  Pressable,
 } from "native-base";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../ContextApiProvider";
+import { Dimensions } from "react-native";
 
 function ModalBox() {
-  console.log(process.env.PIXEL_API_KEY);
+  // const [isMouseDown, setIsMouseDown] = useState(false);
+  const [width, setWidth] = useState("300px");
   const { selectedImg, isModalVisible, setModalVisible } =
     useContext(AppContext);
   const imgSrc = selectedImg?.src?.medium || "";
-  console.log({ selectedImg });
   const dockerRef = React.useRef();
-  const handleSizeClick = (newSize) => {};
-  console.log({ isModalVisible });
 
   const updatePostion = (dockerRef, e) => {
     if (dockerRef.current) {
@@ -37,6 +36,7 @@ function ModalBox() {
       avatarUrl: imgSrc,
     },
   ];
+
   useEffect(() => {
     if (isModalVisible) {
       window.addEventListener("scroll", function (event) {
@@ -44,33 +44,31 @@ function ModalBox() {
       });
     }
   });
-
-  if (!isModalVisible) return "";
-
+  if (!isModalVisible) return null;
   return (
     <Box
       className="Docker Panel"
-      width="300px"
+      width={width >= 300 ? width : 300}
       bg="primary.300"
       position="absolute"
       h="100vh"
       right="0"
       ref={dockerRef}
+      flexDirection="row"
       alignItems="center"
       justifyContent="center"
-      cursor="col-resize"
     >
-      <ArrowForwardIcon
-        onClick={() => setModalVisible(false)}
+      <Pressable
+        onPress={() => setModalVisible(false)}
         position="absolute"
         top="20px"
         left="10px"
-        cursor="pointer"
-      />
+      >
+        <ArrowForwardIcon />
+      </Pressable>
       {imgSrc ? (
-        <Box alignItems="center" m="0.5">
+        <Box alignItems="center" m="0.5" flex="1">
           <Box
-            maxW="80"
             rounded="lg"
             overflow="hidden"
             borderColor="coolGray.200"
@@ -80,7 +78,7 @@ function ModalBox() {
               backgroundColor: "gray.700",
             }}
             _web={{
-              shadow: 2,
+              shadow: 4,
               borderWidth: 0,
             }}
             _light={{
@@ -132,7 +130,7 @@ function ModalBox() {
                     _dark={{
                       color: "violet.400",
                     }}
-                    fontWeight="1000"
+                    fontWeight="400"
                     ml="-0.5"
                     mt="-1"
                   >
@@ -149,7 +147,9 @@ function ModalBox() {
           </Box>
         </Box>
       ) : (
-        <Box>No Immage Selected </Box>
+        <Box>
+          <Text>No Immage Selected</Text>
+        </Box>
       )}
     </Box>
   );

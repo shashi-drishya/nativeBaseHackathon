@@ -1,4 +1,4 @@
-import { Box, ArrowBackIcon, Button, Flex } from "native-base";
+import { Box, ArrowBackIcon, Button, Flex, Pressable } from "native-base";
 import React, { useContext } from "react";
 import { AppContext } from "../ContextApiProvider";
 
@@ -17,10 +17,9 @@ function NavBar() {
       <Flex justifyContent="space-between" alignItems="center" direction="row">
         <Box>LOGO</Box>
         <Box>
-          <ArrowBackIcon
-            cursor="pointer"
-            onClick={() => setModalVisible(true)}
-          />
+          <Pressable onPress={() => setModalVisible(true)}>
+            <ArrowBackIcon />
+          </Pressable>
         </Box>
       </Flex>
     </Box>
